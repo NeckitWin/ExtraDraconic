@@ -1,0 +1,16 @@
+[
+{
+  "modid": "extradraconic",
+  "name": "Extra Draconic",
+  "description": "Extra Draconic is a mod that adds new items and blocks to the game.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "neckitwin.github.io",
+  "updateUrl": "neckitwin.github.io",
+  "authorList": ["NeckitWin"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
