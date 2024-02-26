@@ -18,13 +18,16 @@ public class ContainerChaosCapacitor extends Container {
         this.tile = tile;
         int i = 0;
 
-        this.addSlotToContainer(new Slot(tile, 0, 65, 71));
-        this.addSlotToContainer(new Slot(tile, 1, 65, 115));
-        this.addSlotToContainer(new Slot(tile, 2, 118, 93));
+        this.addSlotToContainer(new Slot(tile, 0, 91, 71));
+        this.addSlotToContainer(new Slot(tile, 1, 62, 80));
+        this.addSlotToContainer(new Slot(tile, 2, 62, 112));
+        this.addSlotToContainer(new Slot(tile, 3, 120, 80));
+        this.addSlotToContainer(new Slot(tile, 4, 120, 112));
+        this.addSlotToContainer(new Slot(tile, 5, 91, 123));
         // ускорители
-        this.addSlotToContainer(new Slot(tile, 3, 170, 79));
-        this.addSlotToContainer(new Slot(tile, 4, 170, 100));
-        this.addSlotToContainer(new Slot(tile, 5, 170, 121));
+        this.addSlotToContainer(new Slot(tile, 6, 170, 79));
+        this.addSlotToContainer(new Slot(tile, 7, 170, 100));
+        this.addSlotToContainer(new Slot(tile, 8, 170, 121));
 
 
         for (i = 0; i < 3; ++i) {
@@ -44,10 +47,10 @@ public class ContainerChaosCapacitor extends Container {
             final ItemStack itemstack2 = slot.getStack();
             itemstack = itemstack2.copy();
             if (slotIndex < 6) {
-                if (!this.mergeItemStack(itemstack2, 6, 42, true)) {
+                if (!this.mergeItemStack(itemstack2, 9, 45, true)) {
                     return null;
                 }
-            } else if (!this.mergeItemStack(itemstack2, 0, 6, false)) {
+            } else if (!this.mergeItemStack(itemstack2, 0, 9, false)) {
                 return null;
             }
             if (itemstack2.stackSize == 0) {

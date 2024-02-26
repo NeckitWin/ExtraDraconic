@@ -73,7 +73,7 @@ public class TileChaosCapacitor extends TileEntity implements IInventory, IEnerg
 
     @Override
     public int getSizeInventory() {
-        return (6);
+        return (9);
     }
 
     @Override
