@@ -1,5 +1,6 @@
 package com.github.neckitwin.common.container;
 
+import com.github.neckitwin.common.slots.SlotChaosCapacitor;
 import com.github.neckitwin.common.tiles.TileChaosCapacitor;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -18,16 +19,16 @@ public class ContainerChaosCapacitor extends Container {
         this.tile = tile;
         int i = 0;
 
-        this.addSlotToContainer(new Slot(tile, 0, 91, 71));
-        this.addSlotToContainer(new Slot(tile, 1, 62, 80));
-        this.addSlotToContainer(new Slot(tile, 2, 62, 112));
-        this.addSlotToContainer(new Slot(tile, 3, 120, 80));
-        this.addSlotToContainer(new Slot(tile, 4, 120, 112));
-        this.addSlotToContainer(new Slot(tile, 5, 91, 123));
-        // ускорители
-        this.addSlotToContainer(new Slot(tile, 6, 170, 79));
-        this.addSlotToContainer(new Slot(tile, 7, 170, 100));
-        this.addSlotToContainer(new Slot(tile, 8, 170, 121));
+        this.addSlotToContainer(new SlotChaosCapacitor(tile, 0, 91, 71));
+        this.addSlotToContainer(new SlotChaosCapacitor(tile, 1, 62, 80));
+        this.addSlotToContainer(new SlotChaosCapacitor(tile, 2, 62, 112));
+        this.addSlotToContainer(new SlotChaosCapacitor(tile, 3, 120, 80));
+        this.addSlotToContainer(new SlotChaosCapacitor(tile, 4, 120, 112));
+        this.addSlotToContainer(new SlotChaosCapacitor(tile, 5, 91, 123));
+
+        this.addSlotToContainer(new SlotChaosCapacitor(tile, 6, 170, 79));
+        this.addSlotToContainer(new SlotChaosCapacitor(tile, 7, 170, 100));
+        this.addSlotToContainer(new SlotChaosCapacitor(tile, 8, 170, 121));
 
 
         for (i = 0; i < 3; ++i) {
