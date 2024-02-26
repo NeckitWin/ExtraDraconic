@@ -11,7 +11,7 @@ import static com.github.neckitwin.ExtraDraconic.*;
 @Mod(modid = MOD_ID, version = VERSION, name = MOD_NAME)
 public class ExtraDraconic {
     public static final String MOD_ID = "extradraconic";
-    public static final String MOD_NAME = "Extra Draconic";
+    public static final String MOD_NAME = "ExtraDraconic";
     public static final String VERSION = "1.0";
 
     @Mod.Instance(MOD_ID)

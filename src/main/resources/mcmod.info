@@ -1,7 +1,7 @@
 [
 {
   "modid": "extradraconic",
-  "name": "Extra Draconic",
+  "name": "ExtraDraconic",
   "description": "Extra Draconic is a mod that adds new items and blocks to the game.",
   "version": "${version}",
   "mcversion": "${mcversion}",
