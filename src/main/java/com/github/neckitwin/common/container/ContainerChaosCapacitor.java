@@ -31,14 +31,11 @@ public class ContainerChaosCapacitor extends Container {
         this.addSlotToContainer(new SlotChaosCapacitor(tile, 8, 170, 121));
 
 
-        for (i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
+        for (i = 0; i < 3; ++i)
+            for (int j = 0; j < 9; ++j)
                 this.addSlotToContainer(new Slot(player, j + i * 9 + 9, 20 + j * 18, 173 + i * 18));
-            }
-        }
-        for (i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(player, i, 20 + i * 18, 230));
-        }
+
+        for (i = 0; i < 9; ++i) this.addSlotToContainer(new Slot(player, i, 20 + i * 18, 230));
     }
 
     public ItemStack transferStackInSlot(final EntityPlayer player, final int slotIndex) {
@@ -47,7 +44,7 @@ public class ContainerChaosCapacitor extends Container {
         if (slot != null && slot.getHasStack()) {
             final ItemStack itemstack2 = slot.getStack();
             itemstack = itemstack2.copy();
-            if (slotIndex < 6) {
+            if (slotIndex < 9) {
                 if (!this.mergeItemStack(itemstack2, 9, 45, true)) {
                     return null;
                 }
@@ -98,7 +95,6 @@ public class ContainerChaosCapacitor extends Container {
                     --k;
                 else
                     ++k;
-
             }
         }
         if (stack.stackSize > 0) {

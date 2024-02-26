@@ -2,12 +2,16 @@ package com.github.neckitwin.common.tiles;
 
 import cofh.api.energy.IEnergyConnection;
 import cofh.api.energy.IEnergyReceiver;
+import com.brandon3055.draconicevolution.common.ModBlocks;
+import com.brandon3055.draconicevolution.common.ModItems;
 import com.brandon3055.draconicevolution.common.utills.EnergyStorage;
+import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,13 +26,53 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileChaosCapacitor extends TileEntity implements IInventory, IEnergyReceiver, IEnergyConnection {
     private ItemStack[] inventory;
+    private int timer = 0;
 
     public EnergyStorage energy = new EnergyStorage(1000000, 10000, 0);
 
+
     @Override
-    public boolean canConnectEnergy(ForgeDirection var1){
+    public void updateEntity() {
+        super.updateEntity();
+        if (!worldObj.isRemote) {
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+
+            boolean hasItemsInInputSlots = true;
+            for (int i = 0; i < 5; i++) {
+                if (inventory[i] == null) {
+                    hasItemsInInputSlots = false;
+                    break;
+                }
+            }
+
+            if (!hasItemsInInputSlots) return;
+            if ((inventory[0].getItem() == null) && (inventory[0].getItem() != ModItems.dragonHeart)) return;
+            if ((inventory[1].getItem() != ModItems.draconicCore || inventory[3].getItem() != ModItems.draconicCore) && (inventory[1].getMaxStackSize() + inventory[3].getMaxStackSize()) < 8) return;
+            if (((inventory[2].getItem() != ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) || inventory[4].getItem() != ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock)) && (inventory[2].getMaxStackSize()+inventory[4].getMaxStackSize() < 4 && inventory[2].getItemDamage() != 2))) return;
+            {
+                timer++;
+                System.out.println(timer);
+                if (timer == 200) {
+                    if (inventory[5] == null) {
+                        inventory[5] = new ItemStack(ModBlocks.draconicBlock,4);
+                        inventory[0].stackSize--;
+
+                    } else if ((inventory[5].stackSize < 64) && inventory[5].getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconicBlock)) {
+                        inventory[5].stackSize+=4;
+                    }
+                    timer = 0;
+                }
+            }
+            markDirty();
+        }
+    }
+
+    @Override
+    public boolean canConnectEnergy(ForgeDirection var1) {
         return true;
-    };
+    }
+
+    ;
 
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
@@ -43,15 +87,6 @@ public class TileChaosCapacitor extends TileEntity implements IInventory, IEnerg
     @Override
     public int getMaxEnergyStored(ForgeDirection var1) {
         return this.energy.getMaxEnergyStored();
-    }
-
-    @Override
-    public void updateEntity() {
-        super.updateEntity();
-        if (!worldObj.isRemote){
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-            markDirty();
-        }
     }
 
     @Override
@@ -166,14 +201,14 @@ public class TileChaosCapacitor extends TileEntity implements IInventory, IEnerg
             inventory[i] = ItemStack.loadItemStackFromNBT(itemTag);
         }
 
-        if (compound.hasKey("Energy")){
+        if (compound.hasKey("Energy")) {
             this.energy.readFromNBT(compound.getCompoundTag("Energy"));
         }
     }
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
-        if (slot == 6) {
+        if (slot == 5) {
             return false;
         }
         return true;
