@@ -37,12 +37,19 @@ public class GuiHeartCreator extends GuiContainer {
         int maxEnergy = tile.getMaxEnergyStored(ForgeDirection.UP);
 
         int energyBarHeight = (int) ((double) energy / (double) maxEnergy * 100);
-        this.drawTexturedModalRect(guiLeft + 12, guiTop + 55 + (100-energyBarHeight), 200, 0, 18, energyBarHeight);
+        this.drawTexturedModalRect(guiLeft + 12, guiTop + 55 + (100 - energyBarHeight), 200, 0, 18, energyBarHeight);
+
+        if (tile.getTimer() > 0){
+            mc.getTextureManager().bindTexture(BACKGROUND);
+            int animationFrame = (tile.getTimer() / 20) % 10;
+            this.drawTexturedModalRect(guiLeft+95, guiTop+97, 218, 0, 10, 2*animationFrame);
+        }
     }
 
     @Override
     public void updateScreen() {
         super.updateScreen();
+        this.inventorySlots.detectAndSendChanges();
     }
 
     @Override
@@ -55,7 +62,7 @@ public class GuiHeartCreator extends GuiContainer {
         super.drawScreen(x, y, size);
         if (x >= guiLeft + 12 && x <= guiLeft + 30 && y >= guiTop + 55 && y <= guiTop + 155) {
             List<String> text = new ArrayList<>();
-            text.add("Energy: " + tile.getEnergyStored(ForgeDirection.UP) + " / " + tile.getMaxEnergyStored(ForgeDirection.UP) + " RF");
+            text.add(tile.getEnergyStored(ForgeDirection.UP) + " / " + tile.getMaxEnergyStored(ForgeDirection.UP) + " RF");
             drawHoveringText(text, x, y, fontRenderer);
         }
     }

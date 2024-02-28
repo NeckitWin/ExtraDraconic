@@ -43,13 +43,11 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
             if (inventory[2].getItem() != ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) && inventory[2].getMaxStackSize() < 4 && inventory[2].getItemDamage() != 2) return;
             {
                 timer++;
-                if (this.energy.getEnergyStored() > 500) {
-                    this.energy.modifyEnergyStored(-500);
+                if (this.energy.getEnergyStored() > 100) {
+                    this.energy.modifyEnergyStored(-100);
                 } else {
                     return;
                 }
-                System.out.println(timer);
-                System.out.println(energy.getEnergyStored());
                 if (timer == 200) {
                     if (inventory[3] == null) {
                         inventory[3] = new ItemStack(ModBlocks.draconicBlock,4);
@@ -67,6 +65,14 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
             }
             markDirty();
         }
+    }
+
+    public int getTimer() {
+        return timer;
+    }
+
+    public void setTimer(int timer) {
+        this.timer = timer;
     }
 
     @Override
@@ -110,7 +116,7 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
 
     @Override
     public int getSizeInventory() {
-        return (9);
+        return (7);
     }
 
     @Override

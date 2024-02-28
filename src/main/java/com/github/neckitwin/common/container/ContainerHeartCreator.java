@@ -2,9 +2,12 @@ package com.github.neckitwin.common.container;
 
 import com.github.neckitwin.common.slots.SlotHeartCreator;
 import com.github.neckitwin.common.tiles.TileHeartCreator;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -121,5 +124,26 @@ public class ContainerHeartCreator extends Container {
             }
         }
         return flag1;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void updateProgressBar(int id, int data) {
+        if (id == 0) {
+            tile.setTimer(data);
+        }
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+
+        if (lastTimerValue != tile.getTimer()) {
+            for (Object crafter : this.crafters) {
+                ICrafting icrafting = (ICrafting) crafter;
+                icrafting.sendProgressBarUpdate(this, 0, tile.getTimer());
+            }
+            lastTimerValue = tile.getTimer();
+        }
     }
 }
