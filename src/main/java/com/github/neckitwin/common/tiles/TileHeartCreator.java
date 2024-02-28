@@ -5,13 +5,8 @@ import cofh.api.energy.IEnergyReceiver;
 import com.brandon3055.draconicevolution.common.ModBlocks;
 import com.brandon3055.draconicevolution.common.ModItems;
 import com.brandon3055.draconicevolution.common.utills.EnergyStorage;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -20,14 +15,12 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileChaosCapacitor extends TileEntity implements IInventory, IEnergyReceiver, IEnergyConnection {
+public class TileHeartCreator extends TileEntity implements IInventory, IEnergyReceiver, IEnergyConnection {
     private ItemStack[] inventory;
     private int timer = 0;
-
     public EnergyStorage energy = new EnergyStorage(1000000, 10000, 0);
 
 
@@ -38,7 +31,7 @@ public class TileChaosCapacitor extends TileEntity implements IInventory, IEnerg
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
             boolean hasItemsInInputSlots = true;
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 if (inventory[i] == null) {
                     hasItemsInInputSlots = false;
                     break;
@@ -47,18 +40,28 @@ public class TileChaosCapacitor extends TileEntity implements IInventory, IEnerg
 
             if (!hasItemsInInputSlots) return;
             if ((inventory[0].getItem() == null) && (inventory[0].getItem() != ModItems.dragonHeart)) return;
-            if ((inventory[1].getItem() != ModItems.draconicCore || inventory[3].getItem() != ModItems.draconicCore) && (inventory[1].getMaxStackSize() + inventory[3].getMaxStackSize()) < 8) return;
-            if (((inventory[2].getItem() != ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) || inventory[4].getItem() != ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock)) && (inventory[2].getMaxStackSize()+inventory[4].getMaxStackSize() < 4 && inventory[2].getItemDamage() != 2))) return;
+            if (inventory[1].getItem() != ModItems.draconicCore && inventory[1].getMaxStackSize() < 8) return;
+            if (inventory[2].getItem() != ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) && inventory[2].getMaxStackSize() < 4 && inventory[2].getItemDamage() != 2) return;
             {
                 timer++;
+                if (this.energy.getEnergyStored() > 500) {
+                    this.energy.extractEnergy(500, false);
+                } else {
+                    return;
+                }
                 System.out.println(timer);
+                System.out.println(energy.getEnergyStored());
                 if (timer == 200) {
-                    if (inventory[5] == null) {
-                        inventory[5] = new ItemStack(ModBlocks.draconicBlock,4);
-                        inventory[0].stackSize--;
-
-                    } else if ((inventory[5].stackSize < 64) && inventory[5].getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconicBlock)) {
-                        inventory[5].stackSize+=4;
+                    if (inventory[3] == null) {
+                        inventory[3] = new ItemStack(ModBlocks.draconicBlock,4);
+                        inventory[0]=null;
+                        inventory[1].stackSize-=16;
+                        inventory[2].stackSize-=4;
+                    } else if ((inventory[3].stackSize < 64) && inventory[3].getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconicBlock)) {
+                        inventory[3].stackSize+=4;
+                        inventory[0]=null;
+                        inventory[1].stackSize-=16;
+                        inventory[2].stackSize-=4;
                     }
                     timer = 0;
                 }
@@ -102,7 +105,7 @@ public class TileChaosCapacitor extends TileEntity implements IInventory, IEnerg
         energy.readFromNBT(compound);
     }
 
-    public TileChaosCapacitor() {
+    public TileHeartCreator() {
         inventory = new ItemStack[getSizeInventory()];
     }
 

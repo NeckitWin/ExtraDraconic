@@ -1,8 +1,8 @@
 package com.github.neckitwin.common.gui;
 
 import com.github.neckitwin.ExtraDraconic;
-import com.github.neckitwin.common.container.ContainerChaosCapacitor;
-import com.github.neckitwin.common.tiles.TileChaosCapacitor;
+import com.github.neckitwin.common.container.ContainerHeartCreator;
+import com.github.neckitwin.common.tiles.TileHeartCreator;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -15,12 +15,12 @@ import java.util.List;
 
 import static cofh.repack.codechicken.lib.render.FontUtils.fontRenderer;
 
-public class GuiChaosCapacitor extends GuiContainer {
-    private TileChaosCapacitor tile;
+public class GuiHeartCreator extends GuiContainer {
+    private TileHeartCreator tile;
     private static final ResourceLocation BACKGROUND = new ResourceLocation(ExtraDraconic.MOD_ID + ":textures/gui/GuiChaosCapacitor.png");
 
-    public GuiChaosCapacitor(InventoryPlayer player, TileChaosCapacitor tile) {
-        super(new ContainerChaosCapacitor(player, tile));
+    public GuiHeartCreator(InventoryPlayer player, TileHeartCreator tile) {
+        super(new ContainerHeartCreator(player, tile));
         this.tile = tile;
         this.xSize = 200;
         this.ySize = 256;
@@ -37,7 +37,7 @@ public class GuiChaosCapacitor extends GuiContainer {
         int maxEnergy = tile.getMaxEnergyStored(ForgeDirection.UP);
 
         int energyBarHeight = (int) ((double) energy / (double) maxEnergy * 100);
-        this.drawTexturedModalRect(guiLeft + 12, guiTop + 55 + (100-energyBarHeight), 200, 10, 18, energyBarHeight);
+        this.drawTexturedModalRect(guiLeft + 12, guiTop + 55 + (100-energyBarHeight), 200, 0, 18, energyBarHeight);
     }
 
     @Override

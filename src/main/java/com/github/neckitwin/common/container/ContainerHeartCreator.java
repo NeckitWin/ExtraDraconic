@@ -1,34 +1,29 @@
 package com.github.neckitwin.common.container;
 
-import com.github.neckitwin.common.slots.SlotChaosCapacitor;
-import com.github.neckitwin.common.tiles.TileChaosCapacitor;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import com.github.neckitwin.common.slots.SlotHeartCreator;
+import com.github.neckitwin.common.tiles.TileHeartCreator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerChaosCapacitor extends Container {
-    private TileChaosCapacitor tile;
+public class ContainerHeartCreator extends Container {
+    private TileHeartCreator tile;
     private int lastTimerValue = 0;
 
-    public ContainerChaosCapacitor(InventoryPlayer player, TileChaosCapacitor tile) {
+    public ContainerHeartCreator(InventoryPlayer player, TileHeartCreator tile) {
         this.tile = tile;
         int i = 0;
 
-        this.addSlotToContainer(new SlotChaosCapacitor(tile, 0, 91, 71));
-        this.addSlotToContainer(new SlotChaosCapacitor(tile, 1, 62, 80));
-        this.addSlotToContainer(new SlotChaosCapacitor(tile, 2, 62, 112));
-        this.addSlotToContainer(new SlotChaosCapacitor(tile, 3, 120, 80));
-        this.addSlotToContainer(new SlotChaosCapacitor(tile, 4, 120, 112));
-        this.addSlotToContainer(new SlotChaosCapacitor(tile, 5, 91, 123));
+        this.addSlotToContainer(new SlotHeartCreator(tile, 0, 91, 71));
+        this.addSlotToContainer(new SlotHeartCreator(tile, 1, 62, 83));
+        this.addSlotToContainer(new SlotHeartCreator(tile, 2, 120, 83));
+        this.addSlotToContainer(new SlotHeartCreator(tile, 3, 91, 123));
 
-        this.addSlotToContainer(new SlotChaosCapacitor(tile, 6, 170, 79));
-        this.addSlotToContainer(new SlotChaosCapacitor(tile, 7, 170, 100));
-        this.addSlotToContainer(new SlotChaosCapacitor(tile, 8, 170, 121));
+        this.addSlotToContainer(new SlotHeartCreator(tile, 4, 170, 79));
+        this.addSlotToContainer(new SlotHeartCreator(tile, 5, 170, 100));
+        this.addSlotToContainer(new SlotHeartCreator(tile, 6, 170, 121));
 
 
         for (i = 0; i < 3; ++i)
@@ -45,10 +40,10 @@ public class ContainerChaosCapacitor extends Container {
             final ItemStack itemstack2 = slot.getStack();
             itemstack = itemstack2.copy();
             if (slotIndex < 9) {
-                if (!this.mergeItemStack(itemstack2, 9, 45, true)) {
+                if (!this.mergeItemStack(itemstack2, 6, 42, true)) {
                     return null;
                 }
-            } else if (!this.mergeItemStack(itemstack2, 0, 9, false)) {
+            } else if (!this.mergeItemStack(itemstack2, 0, 6, false)) {
                 return null;
             }
             if (itemstack2.stackSize == 0) {

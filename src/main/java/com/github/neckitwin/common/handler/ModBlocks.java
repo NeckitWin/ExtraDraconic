@@ -6,10 +6,10 @@ import com.github.neckitwin.common.tiles.*;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ModBlocks {
-    public static final BlockChaosCapacitor CHAOS_CAPACITOR = new BlockChaosCapacitor();
+    public static final BlockHeartCreator CHAOS_CAPACITOR = new BlockHeartCreator();
     public static void register() {
         GameRegistry.registerBlock(CHAOS_CAPACITOR, "chaos_capacitor");
         // add tile entity
-        GameRegistry.registerTileEntity(TileChaosCapacitor.class, ExtraDraconic.MOD_ID + "tile_chaos_capacitor");
+        GameRegistry.registerTileEntity(TileHeartCreator.class, ExtraDraconic.MOD_ID + "tile_chaos_capacitor");
     }
 }
