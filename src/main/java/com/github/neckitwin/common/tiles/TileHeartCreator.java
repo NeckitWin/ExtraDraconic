@@ -23,7 +23,6 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
     private int timer = 0;
     public EnergyStorage energy = new EnergyStorage(1000000, 10000, 0);
 
-
     @Override
     public void updateEntity() {
         super.updateEntity();
@@ -45,7 +44,7 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
             {
                 timer++;
                 if (this.energy.getEnergyStored() > 500) {
-                    this.energy.extractEnergy(500, false);
+                    this.energy.modifyEnergyStored(-500);
                 } else {
                     return;
                 }
@@ -71,6 +70,19 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
     }
 
     @Override
+    public Packet getDescriptionPacket() {
+        NBTTagCompound compound = new NBTTagCompound();
+        energy.writeToNBT(compound);
+        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, compound);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+        NBTTagCompound compound = pkt.func_148857_g();
+        energy.readFromNBT(compound);
+    }
+
+    @Override
     public boolean canConnectEnergy(ForgeDirection var1) {
         return true;
     }
@@ -90,19 +102,6 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
     @Override
     public int getMaxEnergyStored(ForgeDirection var1) {
         return this.energy.getMaxEnergyStored();
-    }
-
-    @Override
-    public Packet getDescriptionPacket() {
-        NBTTagCompound compound = new NBTTagCompound();
-        energy.writeToNBT(compound);
-        return new S35PacketUpdateTileEntity(this.xCoord, this.yCoord, this.zCoord, 3, compound);
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-        NBTTagCompound compound = pkt.func_148857_g();
-        energy.readFromNBT(compound);
     }
 
     public TileHeartCreator() {
