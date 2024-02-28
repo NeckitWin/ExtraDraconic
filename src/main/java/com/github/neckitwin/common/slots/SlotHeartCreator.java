@@ -25,7 +25,7 @@ public class SlotHeartCreator extends Slot {
         if (this.getSlotIndex() == 0) return stack.getItem() == ModItems.dragonHeart;
         else if (this.getSlotIndex() == 1 ) return stack.getItem() == ModItems.draconicCore || stack.getItem() == ModItems.wyvernCore;
         else if (this.getSlotIndex() == 2 ) return stack.getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) && stack.getItemDamage() == 2;
-        else if (this.getSlotIndex() == 4 || this.getSlotIndex() == 5 || this.getSlotIndex() == 6) return stack.getItem() == ModItems.chaoticCore;
+        else if (this.getSlotIndex() == 4 || this.getSlotIndex() == 5 || this.getSlotIndex() == 6) return stack.getItem() == com.github.neckitwin.common.handler.ModItems.ITEM_BOOST_CARD;
         return false;
     }
 }

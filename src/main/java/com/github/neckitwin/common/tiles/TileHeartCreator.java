@@ -29,6 +29,17 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
         if (!worldObj.isRemote) {
             worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
 
+            int timeBoost;
+            if (inventory[4] != null && inventory[5] != null && inventory[6] != null) {
+                timeBoost = 20;
+            } else if ((inventory[4] != null && inventory[5] != null) || (inventory[4] != null && inventory[6] != null) || (inventory[5] != null && inventory[6] != null)) {
+                timeBoost = 50;
+            } else if (inventory[4] != null || inventory[5] != null || inventory[6] != null) {
+                timeBoost = 100;
+            } else {
+                timeBoost = 200;
+            }
+
             boolean hasItemsInInputSlots = true;
             for (int i = 0; i < 3; i++) {
                 if (inventory[i] == null) {
@@ -39,7 +50,7 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
 
             if (!hasItemsInInputSlots) return;
             if ((inventory[0].getItem() == null) && (inventory[0].getItem() != ModItems.dragonHeart)) return;
-            if (inventory[1].getItem() != ModItems.draconicCore && inventory[1].getMaxStackSize() < 8) return;
+            if ((inventory[1].getItem() != ModItems.draconicCore && inventory[1].getMaxStackSize() < 8) || (inventory[1].getItem() != ModItems.wyvernCore && inventory[1].getMaxStackSize() < 2)) return;
             if (inventory[2].getItem() != ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) && inventory[2].getMaxStackSize() < 4 && inventory[2].getItemDamage() != 2) return;
             {
                 timer++;
@@ -48,17 +59,21 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
                 } else {
                     return;
                 }
-                if (timer == 200) {
+                if (timer == timeBoost) {
                     if (inventory[3] == null) {
-                        inventory[3] = new ItemStack(ModBlocks.draconicBlock,4);
-                        inventory[0]=null;
-                        inventory[1].stackSize-=16;
-                        inventory[2].stackSize-=4;
+                        inventory[3] = new ItemStack(ModBlocks.draconicBlock, 4);
+                        inventory[0] = null;
+                        inventory[1].stackSize -= 16;
+                        if (inventory[1].stackSize < 1) inventory[1] = null;
+                        inventory[2].stackSize -= 4;
+                        if (inventory[2].stackSize < 1) inventory[2] = null;
                     } else if ((inventory[3].stackSize < 64) && inventory[3].getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconicBlock)) {
-                        inventory[3].stackSize+=4;
-                        inventory[0]=null;
-                        inventory[1].stackSize-=16;
-                        inventory[2].stackSize-=4;
+                        inventory[3].stackSize += 4;
+                        inventory[0] = null;
+                        inventory[1].stackSize -= 16;
+                        if (inventory[1].stackSize < 1) inventory[1] = null;
+                        inventory[2].stackSize -= 4;
+                        if (inventory[2].stackSize < 1) inventory[2] = null;
                     }
                     timer = 0;
                 }

@@ -42,11 +42,11 @@ public class ContainerHeartCreator extends Container {
         if (slot != null && slot.getHasStack()) {
             final ItemStack itemstack2 = slot.getStack();
             itemstack = itemstack2.copy();
-            if (slotIndex < 9) {
-                if (!this.mergeItemStack(itemstack2, 6, 42, true)) {
+            if (slotIndex < 7) {
+                if (!this.mergeItemStack(itemstack2, 7, 43, true)) {
                     return null;
                 }
-            } else if (!this.mergeItemStack(itemstack2, 0, 6, false)) {
+            } else if (!this.mergeItemStack(itemstack2, 0, 7, false)) {
                 return null;
             }
             if (itemstack2.stackSize == 0) {
