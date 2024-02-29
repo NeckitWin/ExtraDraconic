@@ -62,23 +62,25 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
                 if (timer == timeBoost) {
                     if (inventory[3] == null) {
                         inventory[3] = new ItemStack(ModBlocks.draconicBlock, 4);
-//                        inventory[0] = null;
-//                        if (inventory[1].getItem() == ModItems.draconicCore) {inventory[1].stackSize-=16;
-//                        } else if (inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;}
-//                        if (inventory[1].stackSize < 1) inventory[1] = null;
-//                        inventory[2].stackSize -= 4;
-//                        if (inventory[2].stackSize < 1) inventory[2] = null;
-                        craftHeartBlocks();
+                        inventory[0] = null;
+                        if (inventory[1].getItem() == ModItems.draconicCore) {inventory[1].stackSize-=16;
+                        } else if (inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;}
+                        if (inventory[1].stackSize < 1) inventory[1] = null;
+                        inventory[2].stackSize -= 4;
+                        if (inventory[2].stackSize < 1) inventory[2] = null;
                     } else if ((inventory[3].stackSize < 64) && inventory[3].getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconicBlock)) {
                         inventory[3].stackSize += 4;
-//                        inventory[0] = null;
-//                        if (inventory[1].getItem() == ModItems.draconicCore) {inventory[1].stackSize-=16;
-//                        } else if (inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;}
-//                        if (inventory[1].stackSize < 1) inventory[1] = null;
-//                        inventory[2].stackSize -= 4;
-//                        if (inventory[2].stackSize < 1) inventory[2] = null;
-                        craftHeartBlocks();
+                        inventory[0] = null;
+                        if (inventory[1].getItem() == ModItems.draconicCore) {
+                            inventory[1].stackSize-=16;
+                        } else if (
+                                inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;
+                        }
+                        if (inventory[1].stackSize < 1) inventory[1] = null;
+                        inventory[2].stackSize -= 4;
+                        if (inventory[2].stackSize < 1) inventory[2] = null;
                     }
+                    worldObj.createExplosion(null, xCoord, yCoord, zCoord, 1.5F, true);
                     timer = 0;
                 }
             }

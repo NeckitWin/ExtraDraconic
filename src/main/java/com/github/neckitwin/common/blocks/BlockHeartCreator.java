@@ -17,6 +17,7 @@ public class BlockHeartCreator extends BlockContainer {
         this.setBlockTextureName(ExtraDraconic.MOD_ID+":heartcreator");
         this.setHardness(0.5F);
         this.setCreativeTab(ModTab.INSTANCE);
+        this.setResistance(6000000.0F);
     }
 
     @Override

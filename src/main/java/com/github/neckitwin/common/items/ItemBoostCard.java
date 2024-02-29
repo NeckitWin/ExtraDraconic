@@ -8,7 +8,7 @@ public class ItemBoostCard extends Item {
     public ItemBoostCard() {
         super();
         this.setUnlocalizedName("boostcard");
-        this.setTextureName(ExtraDraconic.MOD_ID+ ":boostсard");
+        this.setTextureName(ExtraDraconic.MOD_ID+ ":boostcard");
         this.setCreativeTab(ModTab.INSTANCE);
     }
 }
