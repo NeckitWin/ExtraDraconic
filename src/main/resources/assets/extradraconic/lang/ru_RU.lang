@@ -1,0 +1,6 @@
+itemGroup.extradraconic = Extra Draconic
+# Items
+item.bankai.name = Банкай
+item.boostcard.name = Карта ускорения
+# Blocks
+tile.heartcreator.name = Создатель пробуждения

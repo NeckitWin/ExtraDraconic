@@ -7,8 +7,8 @@ import net.minecraft.item.Item;
 public class ItemBoostCard extends Item {
     public ItemBoostCard() {
         super();
-        this.setUnlocalizedName("boostCard");
-        this.setTextureName(ExtraDraconic.MOD_ID+ ":boostCard");
+        this.setUnlocalizedName("boostcard");
+        this.setTextureName(ExtraDraconic.MOD_ID+ ":boostсard");
         this.setCreativeTab(ModTab.INSTANCE);
     }
 }

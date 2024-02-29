@@ -11,7 +11,7 @@ import net.minecraft.item.ItemSword;
 public class ItemBankai extends ItemSword {
     public ItemBankai() {
         super(ModItems.BANKAI);
-        this.setUnlocalizedName("Bankai");
+        this.setUnlocalizedName("bankai");
         this.setTextureName(ExtraDraconic.MOD_ID + ":bankai");
         this.setCreativeTab(ModTab.INSTANCE);
     }

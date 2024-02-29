@@ -13,8 +13,8 @@ import net.minecraft.world.World;
 public class BlockHeartCreator extends BlockContainer {
     public BlockHeartCreator() {
         super(Material.wood);
-        this.setBlockName("chaos_capacitor");
-        this.setBlockTextureName(ExtraDraconic.MOD_ID+":chaos_capacitor");
+        this.setBlockName("heartcreator");
+        this.setBlockTextureName(ExtraDraconic.MOD_ID+":heartcreator");
         this.setHardness(0.5F);
         this.setCreativeTab(ModTab.INSTANCE);
     }
