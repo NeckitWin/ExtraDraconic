@@ -63,8 +63,8 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
                     if (inventory[3] == null) {
                         inventory[3] = new ItemStack(ModBlocks.draconicBlock, 4);
                         inventory[0] = null;
-                        if (inventory[1].getItem() == ModItems.draconicCore) {inventory[1].stackSize-=16;
-                        } else if (inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;}
+                        if (inventory[1].getItem() == ModItems.draconicCore) {inventory[1].stackSize-=16;}
+                        else if (inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;}
                         if (inventory[1].stackSize < 1) inventory[1] = null;
                         inventory[2].stackSize -= 4;
                         if (inventory[2].stackSize < 1) inventory[2] = null;
@@ -246,10 +246,15 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
-        if (slot == 5) {
+        if (slot == 0) {
+            return stack.getItem() == ModItems.dragonHeart;
+        } else if (slot == 1) {
+            return stack.getItem() == ModItems.draconicCore || stack.getItem() == ModItems.wyvernCore;
+        } else if (slot == 2) {
+            return stack.getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) && stack.getItemDamage() == 2;
+        } else {
             return false;
         }
-        return true;
     }
 
     @Override
