@@ -67,9 +67,9 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
             }
 
             if (!hasItemsInInputSlots) return;
-            if ((inventory[0].getItem() == null) && (inventory[0].getItem() != ModItems.dragonHeart)) return;
-            if ((inventory[1].getItem() != ModItems.draconicCore && inventory[1].getMaxStackSize() < 8) || (inventory[1].getItem() != ModItems.wyvernCore && inventory[1].getMaxStackSize() < 2)) return;
-            if (inventory[2].getItem() != ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) && inventory[2].getMaxStackSize() < 4 && inventory[2].getItemDamage() != 2) return;
+            if ((inventory[HEART_SLOT].getItem() == null) && (inventory[HEART_SLOT].getItem() != ModItems.dragonHeart)) return;
+            if ((inventory[CORE_SLOT].getItem() != ModItems.draconicCore && inventory[CORE_SLOT].getMaxStackSize() < 8) || (inventory[CORE_SLOT].getItem() != ModItems.wyvernCore && inventory[CORE_SLOT].getMaxStackSize() < 2)) return;
+            if (inventory[DRAKONIUM_SLOT].getItem() != ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) && inventory[DRAKONIUM_SLOT].getMaxStackSize() < 4 && inventory[DRAKONIUM_SLOT].getItemDamage() != 2) return;
             {
                 timer++;
                 if (this.energy.getEnergyStored() > 100) {
@@ -78,11 +78,11 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
                     return;
                 }
                 if (timer == timeBoost) {
-                    if (inventory[3] == null) {
-                        inventory[3] = new ItemStack(ModBlocks.draconicBlock, 4);
+                    if (inventory[OUTPUT_SLOT] == null) {
+                        inventory[OUTPUT_SLOT] = new ItemStack(ModBlocks.draconicBlock, 4);
                         craftHeartBlock();
-                    } else if ((inventory[3].stackSize < 64) && inventory[3].getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconicBlock)) {
-                        inventory[3].stackSize += 4;
+                    } else if ((inventory[OUTPUT_SLOT].stackSize < 64) && inventory[OUTPUT_SLOT].getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconicBlock)) {
+                        inventory[OUTPUT_SLOT].stackSize += 4;
                         craftHeartBlock();
                     }
                     worldObj.createExplosion(null, xCoord, yCoord, zCoord, 1.5F, true);
@@ -94,12 +94,12 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
     }
 
     public void craftHeartBlock () {
-        inventory[0] = null;
-        if (inventory[1].getItem() == ModItems.draconicCore) {inventory[1].stackSize-=16;}
-        else if (inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;}
-        if (inventory[1].stackSize < 1) inventory[1] = null;
-        inventory[2].stackSize -= 4;
-        if (inventory[2].stackSize < 1) inventory[2] = null;
+        inventory[HEART_SLOT] = null;
+        if (inventory[CORE_SLOT].getItem() == ModItems.draconicCore) {inventory[CORE_SLOT].stackSize-=16;}
+        else if (inventory[CORE_SLOT].getItem() == ModItems.wyvernCore) {inventory[CORE_SLOT].stackSize-=2;}
+        if (inventory[CORE_SLOT].stackSize < 1) inventory[CORE_SLOT] = null;
+        inventory[DRAKONIUM_SLOT].stackSize -= 4;
+        if (inventory[DRAKONIUM_SLOT].stackSize < 1) inventory[DRAKONIUM_SLOT] = null;
     }
 
     public int getTimer() {
