@@ -21,7 +21,18 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileHeartCreator extends TileEntity implements IInventory, IEnergyReceiver, IEnergyConnection {
     private ItemStack[] inventory;
     private int timer = 0;
+    private static final int HEART_SLOT = 0;
+    private static final int CORE_SLOT = 1;
+    private static final int DRAKONIUM_SLOT = 2;
+    private static final int OUTPUT_SLOT = 3;
+    private static final int BOOST_SLOT_1 = 4;
+    private static final int BOOST_SLOT_2 = 5;
+    private static final int BOOST_SLOT_3 = 6;
     public EnergyStorage energy = new EnergyStorage(1000000, 10000, 0);
+
+    public TileHeartCreator() {
+        inventory = new ItemStack[getSizeInventory()];
+    }
 
     public void markForSave() {
         worldObj.markTileEntityChunkModified(xCoord, yCoord, zCoord, this);
@@ -37,11 +48,11 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
         if (!worldObj.isRemote) {
             markForSave();
             int timeBoost;
-            if (inventory[4] != null && inventory[5] != null && inventory[6] != null) {
+            if (inventory[BOOST_SLOT_1] != null && inventory[BOOST_SLOT_2] != null && inventory[BOOST_SLOT_3] != null) {
                 timeBoost = 20;
-            } else if ((inventory[4] != null && inventory[5] != null) || (inventory[4] != null && inventory[6] != null) || (inventory[5] != null && inventory[6] != null)) {
+            } else if ((inventory[BOOST_SLOT_1] != null && inventory[BOOST_SLOT_2] != null) || (inventory[BOOST_SLOT_1] != null && inventory[BOOST_SLOT_3] != null) || (inventory[BOOST_SLOT_2] != null && inventory[BOOST_SLOT_3] != null)) {
                 timeBoost = 50;
-            } else if (inventory[4] != null || inventory[5] != null || inventory[6] != null) {
+            } else if (inventory[BOOST_SLOT_1] != null || inventory[BOOST_SLOT_2] != null || inventory[BOOST_SLOT_3] != null) {
                 timeBoost = 100;
             } else {
                 timeBoost = 200;
@@ -69,23 +80,10 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
                 if (timer == timeBoost) {
                     if (inventory[3] == null) {
                         inventory[3] = new ItemStack(ModBlocks.draconicBlock, 4);
-                        inventory[0] = null;
-                        if (inventory[1].getItem() == ModItems.draconicCore) {inventory[1].stackSize-=16;}
-                        else if (inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;}
-                        if (inventory[1].stackSize < 1) inventory[1] = null;
-                        inventory[2].stackSize -= 4;
-                        if (inventory[2].stackSize < 1) inventory[2] = null;
+                        craftHeartBlock();
                     } else if ((inventory[3].stackSize < 64) && inventory[3].getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconicBlock)) {
                         inventory[3].stackSize += 4;
-                        inventory[0] = null;
-                        if (inventory[1].getItem() == ModItems.draconicCore) {
-                            inventory[1].stackSize-=16;
-                        } else if (
-                                inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;
-                        }
-                        if (inventory[1].stackSize < 1) inventory[1] = null;
-                        inventory[2].stackSize -= 4;
-                        if (inventory[2].stackSize < 1) inventory[2] = null;
+                        craftHeartBlock();
                     }
                     worldObj.createExplosion(null, xCoord, yCoord, zCoord, 1.5F, true);
                     timer = 0;
@@ -95,10 +93,10 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
         }
     }
 
-    public void craftHeartBlocks(){
+    public void craftHeartBlock () {
         inventory[0] = null;
-        if (inventory[1].getItem() == ModItems.draconicCore) {inventory[1].stackSize-=16;
-        } else if (inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;}
+        if (inventory[1].getItem() == ModItems.draconicCore) {inventory[1].stackSize-=16;}
+        else if (inventory[1].getItem() == ModItems.wyvernCore) {inventory[1].stackSize-=2;}
         if (inventory[1].stackSize < 1) inventory[1] = null;
         inventory[2].stackSize -= 4;
         if (inventory[2].stackSize < 1) inventory[2] = null;
@@ -130,8 +128,6 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
         return true;
     }
 
-    ;
-
     @Override
     public int receiveEnergy(ForgeDirection from, int maxReceive, boolean simulate) {
         return this.energy.receiveEnergy(maxReceive, simulate);
@@ -145,10 +141,6 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
     @Override
     public int getMaxEnergyStored(ForgeDirection var1) {
         return this.energy.getMaxEnergyStored();
-    }
-
-    public TileHeartCreator() {
-        inventory = new ItemStack[getSizeInventory()];
     }
 
     @Override

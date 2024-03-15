@@ -28,8 +28,6 @@ public class GuiHeartCreator extends GuiContainer {
 
     @Override
     public void drawGuiContainerBackgroundLayer(float size, int x, int y) {
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         mc.getTextureManager().bindTexture(BACKGROUND);
         this.drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 
@@ -39,10 +37,10 @@ public class GuiHeartCreator extends GuiContainer {
         int energyBarHeight = (int) ((double) energy / (double) maxEnergy * 100);
         this.drawTexturedModalRect(guiLeft + 12, guiTop + 55 + (100 - energyBarHeight), 200, 0, 18, energyBarHeight);
 
-        if (tile.getTimer() > 0){
+        if (tile.getTimer() > 0) {
             mc.getTextureManager().bindTexture(BACKGROUND);
             int animationFrame = (tile.getTimer() / 20) % 10;
-            this.drawTexturedModalRect(guiLeft+95, guiTop+97, 218, 0, 10, 2*animationFrame);
+            this.drawTexturedModalRect(guiLeft + 95, guiTop + 97, 218, 0, 10, 2 * animationFrame);
         }
     }
 
