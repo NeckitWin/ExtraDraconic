@@ -22,6 +22,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileHeartCreator extends TileEntity implements IInventory, IEnergyReceiver, IEnergyConnection, ISidedInventory {
     private ItemStack[] inventory;
     private int timer = 0;
+
+    private int timeBoost;
     private static final int HEART_SLOT = 0;
     private static final int CORE_SLOT = 1;
     private static final int DRAKONIUM_SLOT = 2;
@@ -51,33 +53,8 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
             markForSave();
             markForSync();
 
-//            int timeBoost;
-//            int count = 0;
-//            for (int i : new int[]{BOOST_SLOT_1, BOOST_SLOT_2, BOOST_SLOT_3}) {
-//                if (inventory[i] != null) {
-//                    count++;
-//                }
-//            }
-//            if (count == 3) {
-//                timeBoost = 20;
-//            } else if (count == 2) {
-//                timeBoost = 50;
-//            } else if (count == 1) {
-//                timeBoost = 100;
-//            } else {
-//                timeBoost = 200;
-//            }
+            boostCheck();
 
-            int timeBoost;
-            if (inventory[BOOST_SLOT_1] != null && inventory[BOOST_SLOT_2] != null && inventory[BOOST_SLOT_3] != null) {
-                timeBoost = 20;
-            } else if ((inventory[BOOST_SLOT_1] != null && inventory[BOOST_SLOT_2] != null) || (inventory[BOOST_SLOT_1] != null && inventory[BOOST_SLOT_3] != null) || (inventory[BOOST_SLOT_2] != null && inventory[BOOST_SLOT_3] != null)) {
-                timeBoost = 50;
-            } else if (inventory[BOOST_SLOT_1] != null || inventory[BOOST_SLOT_2] != null || inventory[BOOST_SLOT_3] != null) {
-                timeBoost = 100;
-            } else {
-                timeBoost = 200;
-            }
             boolean hasItemsInInputSlots = true;
             for (int i = 0; i < 3; i++) {
                 if (inventory[i] == null) {
@@ -110,6 +87,28 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
                 }
             }
             markDirty();
+        }
+    }
+
+    public void boostCheck() {
+        int nonNullCount = 0;
+
+        if (inventory[BOOST_SLOT_1] != null) nonNullCount++;
+        if (inventory[BOOST_SLOT_2] != null) nonNullCount++;
+        if (inventory[BOOST_SLOT_3] != null) nonNullCount++;
+
+        switch (nonNullCount) {
+            case 3:
+                timeBoost = 20;
+                break;
+            case 2:
+                timeBoost = 50;
+                break;
+            case 1:
+                timeBoost = 100;
+                break;
+            default:
+                timeBoost = 200;
         }
     }
 
@@ -280,7 +279,7 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
             return false;
         }
     }
-    // to do
+
     @Override
     public boolean canInsertItem(int slot, ItemStack stack, int side) {
         if (slot == HEART_SLOT) {
@@ -293,7 +292,7 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
             return false;
         }
     }
-    // to do
+
     @Override
     public boolean canExtractItem(int slot, ItemStack stack, int side)
     {
