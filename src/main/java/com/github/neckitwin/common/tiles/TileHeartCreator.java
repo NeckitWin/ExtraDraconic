@@ -7,6 +7,7 @@ import com.brandon3055.draconicevolution.common.ModItems;
 import com.brandon3055.draconicevolution.common.utills.EnergyStorage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,7 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class TileHeartCreator extends TileEntity implements IInventory, IEnergyReceiver, IEnergyConnection {
+public class TileHeartCreator extends TileEntity implements IInventory, IEnergyReceiver, IEnergyConnection, ISidedInventory {
     private ItemStack[] inventory;
     private int timer = 0;
     private static final int HEART_SLOT = 0;
@@ -28,6 +29,7 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
     private static final int BOOST_SLOT_1 = 4;
     private static final int BOOST_SLOT_2 = 5;
     private static final int BOOST_SLOT_3 = 6;
+    int[] slots = new int[]{HEART_SLOT, CORE_SLOT, DRAKONIUM_SLOT, OUTPUT_SLOT, BOOST_SLOT_1, BOOST_SLOT_2, BOOST_SLOT_3};
     public EnergyStorage energy = new EnergyStorage(1000000, 10000, 0);
 
     public TileHeartCreator() {
@@ -47,6 +49,25 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
         super.updateEntity();
         if (!worldObj.isRemote) {
             markForSave();
+            markForSync();
+
+//            int timeBoost;
+//            int count = 0;
+//            for (int i : new int[]{BOOST_SLOT_1, BOOST_SLOT_2, BOOST_SLOT_3}) {
+//                if (inventory[i] != null) {
+//                    count++;
+//                }
+//            }
+//            if (count == 3) {
+//                timeBoost = 20;
+//            } else if (count == 2) {
+//                timeBoost = 50;
+//            } else if (count == 1) {
+//                timeBoost = 100;
+//            } else {
+//                timeBoost = 200;
+//            }
+
             int timeBoost;
             if (inventory[BOOST_SLOT_1] != null && inventory[BOOST_SLOT_2] != null && inventory[BOOST_SLOT_3] != null) {
                 timeBoost = 20;
@@ -57,7 +78,6 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
             } else {
                 timeBoost = 200;
             }
-            markForSync();
             boolean hasItemsInInputSlots = true;
             for (int i = 0; i < 3; i++) {
                 if (inventory[i] == null) {
@@ -259,6 +279,34 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
         } else {
             return false;
         }
+    }
+    // to do
+    @Override
+    public boolean canInsertItem(int slot, ItemStack stack, int side) {
+        if (slot == HEART_SLOT) {
+            return stack.getItem() == ModItems.dragonHeart;
+        } else if (slot == CORE_SLOT) {
+            return stack.getItem() == ModItems.draconicCore || stack.getItem() == ModItems.wyvernCore;
+        } else if (slot == DRAKONIUM_SLOT) {
+            return stack.getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) && stack.getItemDamage() == 2;
+        } else {
+            return false;
+        }
+    }
+    // to do
+    @Override
+    public boolean canExtractItem(int slot, ItemStack stack, int side)
+    {
+        if (slot == OUTPUT_SLOT) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int[] getAccessibleSlotsFromSide(int slot) {
+        return slots;
     }
 
     @Override
