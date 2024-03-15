@@ -23,12 +23,19 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
     private int timer = 0;
     public EnergyStorage energy = new EnergyStorage(1000000, 10000, 0);
 
+    public void markForSave() {
+        worldObj.markTileEntityChunkModified(xCoord, yCoord, zCoord, this);
+    }
+
+    public void markForSync() {
+        worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
+    }
+
     @Override
     public void updateEntity() {
         super.updateEntity();
         if (!worldObj.isRemote) {
-            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
-
+            markForSave();
             int timeBoost;
             if (inventory[4] != null && inventory[5] != null && inventory[6] != null) {
                 timeBoost = 20;
@@ -39,7 +46,7 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
             } else {
                 timeBoost = 200;
             }
-
+            markForSync();
             boolean hasItemsInInputSlots = true;
             for (int i = 0; i < 3; i++) {
                 if (inventory[i] == null) {
@@ -252,6 +259,11 @@ public class TileHeartCreator extends TileEntity implements IInventory, IEnergyR
             return stack.getItem() == ModItems.draconicCore || stack.getItem() == ModItems.wyvernCore;
         } else if (slot == 2) {
             return stack.getItem() == ItemBlock.getItemFromBlock(ModBlocks.draconiumBlock) && stack.getItemDamage() == 2;
+        } else if (slot == 3) {
+            if (inventory[3] != null && inventory[3].getItem() != null) {
+                return true;
+            }
+            return false;
         } else {
             return false;
         }
